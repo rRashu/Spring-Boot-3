@@ -31,7 +31,11 @@ public class medicos {
     //en donde el finndall() trae todo de la base de datos
     @GetMapping
 public Page<DatosListadoMedicos> listarmedicos(@PageableDefault() Pageable pagina){
-        return medicorepository.findAll(pagina).map(DatosListadoMedicos::new);
+        //busca todos los valores sin filtro
+        //return medicorepository.findAll(pagina).map(DatosListadoMedicos::new);
+
+        //retorna solo la busqueda del campo colocado
+        return medicorepository.findByActivoTrue(pagina).map(DatosListadoMedicos::new);
         //para eleiuir cuantos datos van por pagina eso se hace desde el navegador con
         // ?size= tamañó deseado & page= Numero de pag que quiero ver
         // tambien se escriben en pageabledefault pero tieme prioridad si se envia argumentos desde el navegador
@@ -41,8 +45,22 @@ public Page<DatosListadoMedicos> listarmedicos(@PageableDefault() Pageable pagin
 //Transactional para que se haga el commit cuando finalice correctamente el metodo
 @PutMapping
 @Transactional
-    public void modificarmedico(@RequestBody @Valid DatosActualizarMedico datosActualizarMedico){
+public void modificarmedico(@RequestBody @Valid DatosActualizarMedico datosActualizarMedico){
 Medicos medicos = medicorepository.getReferenceById(datosActualizarMedico.id());
         medicos.actualizardatos(datosActualizarMedico);
 }
+// delete logico coloca solo una referencia para saber si esta activo o no
+@DeleteMapping("/{id}")
+@Transactional
+public void eliminarmedico(@PathVariable Long id ){
+    Medicos medicos = medicorepository.getReferenceById(id);
+    medicos.desactivarmedico();
+}
+
+/* Eliminar completamente de la base de datos
+public void eliminarmedico(@PathVariable Long id ){
+    Medicos medicos = medicorepository.getReferenceById(id);
+    medicorepository.delete(medicos);
+
+}*/
 }
