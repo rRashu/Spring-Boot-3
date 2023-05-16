@@ -15,6 +15,7 @@ import med.voll.api.direccion.Direccion;
 @EqualsAndHashCode(of = "id")
 
 public class Medicos {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -34,6 +35,17 @@ public class Medicos {
         this.email = datosReguistroMedico.email();
         this.especialidad = datosReguistroMedico.especialidad();
         this.direccion = new Direccion(datosReguistroMedico.direccion());
+    }
+
+    public void actualizardatos(DatosActualizarMedico datosActualizarMedico){
+       if (datosActualizarMedico.nombre() != null){
+           this.nombre = datosActualizarMedico.nombre();
+       }
+       if(datosActualizarMedico.documento()!=null){
+           this.nombre = datosActualizarMedico.documento();
+       }
+       if (datosActualizarMedico.direccion()!= null)
+           this.direccion = direccion.actualizardatos(datosActualizarMedico.direccion());
     }
 
 }
