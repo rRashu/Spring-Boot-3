@@ -1,8 +1,8 @@
 package med.voll.api.medicocontroller;
 
 import jakarta.validation.Valid;
-import med.voll.api.direccion.DatosDireccion;
-import med.voll.api.medico.*;
+import med.voll.api.Dominio.direccion.DatosDireccion;
+import med.voll.api.Dominio.medico.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
